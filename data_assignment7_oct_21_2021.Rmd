@@ -246,8 +246,15 @@ Linear models are not well suited for bounded ordinal responses. Instead ordinal
 library(MASS)
 select <- dplyr::select
 
-polr(data = , formula = , method = "probit")
+protest_df_edit3 <- protest_df_edit2 %>% 
+  mutate(group_favorability_the_police = as.factor(group_favorability_the_police),
+         treatment_after = as.factor(treatment_after),
+         ideo5 = as.factor(ideo5),
+         is_black = as.factor(is_black))
+
+polr(data = protest_df_edit3, formula = group_favorability_the_police ~ treatment_after + ideo5*is_black, 
+     method = "probit")
 ```
 
-**ANSWER:** 
+**ANSWER:** *Most coefficients are significantly larger than those in part b. This makes sense - if we are able to analyze the impact of, say, ideology at different levels of ideology, rather than a one-point increase from any level, we're able to better pinpoint the relationship between that specific level and the dependent variable. In this case, there's an especially stronger negative relationship for each step higher on the ideology scale toward more conservative views. Interesting, the interaction variable shows the opposite effect for higher levels of ideology if the respondent is Black - coefficients are larger in the positive direction.*
 
